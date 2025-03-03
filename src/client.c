@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:28 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/02/28 17:59:52 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/03 02:09:00 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,25 @@ void	send_message(int PID, char *message)
 	int		j;
 	char	binary[9];
 
-	i = 0;
-	while (message[i])
+	i = -1;
+	while (message[++i])
 	{
 		char_to_binary(message[i], binary);
-		j = 0;
-		while (binary[j])
+		j = -1;
+		while (binary[++j])
 		{
 			if (binary[j] == '0')
 				kill(PID, SIGUSR1);
 			else if (binary[j] == '1')
 				kill(PID, SIGUSR2);
-			j++;
+			usleep(100);
 		}
-		i++;
+	}
+	i = -1;
+	while (++i < 8)
+	{
+		kill(PID, SIGUSR1);
+		usleep(100);
 	}
 }
 
