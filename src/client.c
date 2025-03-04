@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:28 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/03 02:09:00 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:57:12 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ void	send_message(int PID, char *message)
 
 int	main(int ac, char **av)
 {
-	int	PID;
-	char *message;
-	
+	int		pid;
+	char	*message;
+
 	if (ac == 3)
 	{
-		PID = ft_atoi(av[1]);
-		if (!PID)
+		pid = ft_atoi(av[1]);
+		if (!pid)
 		{
 			ft_printf("PID formulation error\n");
 			return (0);
@@ -72,7 +72,7 @@ int	main(int ac, char **av)
 			ft_printf("No message, please write a massage \n");
 			return (0);
 		}
-		send_message(PID, message);
+		send_message(pid, message);
 	}
 	else
 	{
