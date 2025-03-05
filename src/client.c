@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:28 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/04 17:57:12 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/05 04:55:16 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void	send_message(int PID, char *message)
 				kill(PID, SIGUSR1);
 			else if (binary[j] == '1')
 				kill(PID, SIGUSR2);
-			usleep(100);
+			usleep(350);
 		}
 	}
 	i = -1;
 	while (++i < 8)
 	{
 		kill(PID, SIGUSR1);
-		usleep(100);
+		usleep(350);
 	}
 }
 
@@ -61,7 +61,7 @@ int	main(int ac, char **av)
 	if (ac == 3)
 	{
 		pid = ft_atoi(av[1]);
-		if (!pid)
+		if (!pid || only_number(av[1]))
 		{
 			ft_printf("PID formulation error\n");
 			return (0);
