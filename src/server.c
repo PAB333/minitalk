@@ -6,11 +6,26 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:18 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/05 05:03:35 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:50:30 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
+
+char	*stock_message(char *message, int ascii)
+{
+	static int	i = 0;
+	static char	*str;
+
+	str = malloc(sizeof(char) * (ft_strlen(message) + 2));
+	if (!str)
+		return (NULL);
+	str[i] = ascii;
+	i++;
+	str[i] = '\0';
+	free(message);
+	return (str);
+}
 
 int	binary_to_ascii(char *c)
 {
@@ -36,6 +51,7 @@ void	signal_handler(int signum)
 	static int		count = 0;
 	static int		ascii;
 	static char		c[9];
+	static char		*message;
 
 	if (signum == SIGUSR1)
 		c[count] = '0';
@@ -46,10 +62,13 @@ void	signal_handler(int signum)
 	{
 		c[count] = '\0';
 		ascii = binary_to_ascii(c);
-		if (ascii == '\0')
-			ft_printf("\n");
+		if (ascii = '\0')
+		{
+			ft_printf("%s\n", message);
+			free(message);
+		}
 		else
-			write(1, &ascii, 1);
+			message = stock_message(message, ascii);
 		count = 0;
 		ascii = 0;
 	}

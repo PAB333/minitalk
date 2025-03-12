@@ -6,7 +6,7 @@
 #    By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/28 18:15:50 by pibreiss          #+#    #+#              #
-#    Updated: 2025/03/11 11:00:40 by pibreiss         ###   ########.fr        #
+#    Updated: 2025/03/12 16:28:02 by pibreiss         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ CFLAGS = -Werror -Wextra -Werror
 SRC_CLIENT = src/client.c src/minitalk_utils.c ft_printf/ft_printf.c \
 			ft_printf/ft_putchar.c ft_printf/ft_putnbr.c ft_printf/ft_putstr.c \
 			ft_printf/ft_putexa.c ft_printf/ft_putptr.c
-SRC_SERVER = src/server.c ft_printf/ft_printf.c ft_printf/ft_putchar.c ft_printf/ft_putnbr.c \
-			ft_printf/ft_putstr.c ft_printf/ft_putexa.c ft_printf/ft_putptr.c
+SRC_SERVER = src/server.c src/minitalk_utils.c ft_printf/ft_printf.c ft_printf/ft_putchar.c \
+			ft_printf/ft_putnbr.c ft_printf/ft_putstr.c ft_printf/ft_putexa.c ft_printf/ft_putptr.c
 
 OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 OBJ_SERVER = $(SRC_SERVER:.c=.o)
