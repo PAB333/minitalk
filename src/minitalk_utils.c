@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:08:16 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/12 16:47:35 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/13 19:23:26 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,22 @@ int	ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+char	*ft_strdup(char *source)
+{
+	char	*array;
+	size_t	i;
+
+	array = malloc(sizeof(char) * (ft_strlen(source) + 1));
+	if (array == NULL)
+		return (NULL);
+	i = 0;
+	while (source[i])
+	{
+		array[i] = source[i];
+		i++;
+	}
+	array[i] = '\0';
+	return (array);
 }
