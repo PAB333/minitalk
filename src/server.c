@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:18 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/13 19:35:26 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/14 01:17:41 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,22 @@ int	binary_to_ascii(char *c)
 	return (ascii);
 }
 
-void	signal_handler(int signum)
+static char	*print_and_free(char *message)
+{
+	ft_printf("%s\n", message);
+	free(message);
+	message = ft_strdup("");
+	return (message);
+}
+
+void	signal_handler(int signum, siginfo_t *info, void *context)
 {
 	static int		count = 0;
 	static int		ascii;
 	static char		c[9];
 	static char		*message = NULL;
 
+	(void)context;
 	if (message == NULL)
 		message = ft_strdup("");
 	if (signum == SIGUSR1)
@@ -71,16 +80,13 @@ void	signal_handler(int signum)
 		c[count] = '\0';
 		ascii = binary_to_ascii(c);
 		if (ascii == '\0')
-		{
-			ft_printf("%s\n", message);
-			free(message);
-			message = ft_strdup("");
-		}
+			message = print_and_free(message);
 		else
 			message = stock_message(message, ascii);
 		count = 0;
 		ascii = 0;
 	}
+	kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -89,9 +95,9 @@ int	main(void)
 
 	ft_printf("Welcome, you are on the server\n");
 	ft_printf("The PID to connect from the client is : %d\n", getpid());
-	signal.sa_handler = signal_handler;
+	signal.sa_sigaction = signal_handler;
 	sigemptyset(&signal.sa_mask);
-	signal.sa_flags = 0;
+	signal.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &signal, NULL);
 	sigaction(SIGUSR2, &signal, NULL);
 	while (1)
