@@ -6,11 +6,18 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:28 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/14 01:30:55 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/14 16:03:09 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
+
+int	g_received_check;
+
+void	received_checker(int signal)
+{
+	g_received_check = 1;
+}
 
 void	char_to_binary(char c, char *binary)
 {
@@ -42,14 +49,9 @@ void	send_message(int PID, char *message)
 				kill(PID, SIGUSR1);
 			else if (binary[j] == '1')
 				kill(PID, SIGUSR2);
-			usleep(300);
+			while (!g_received_check)
+				;
 		}
-	}
-	i = -1;
-	while (++i < 8)
-	{
-		kill(PID, SIGUSR1);
-		usleep(300);
 	}
 }
 
@@ -61,7 +63,8 @@ int	main(int ac, char **av)
 	if (ac == 3)
 	{
 		pid = ft_atoi(av[1]);
-		if (!pid || only_number(av[1]))
+		signal(SIGUSR1, received_checker);
+		if (!pid || only_number(av[1]) || kill(pid, 0) == -1)
 		{
 			ft_printf("PID formulation error\n");
 			return (0);
@@ -73,10 +76,9 @@ int	main(int ac, char **av)
 			return (0);
 		}
 		send_message(pid, message);
+		send_message(pid, "\0");
 	}
 	else
-	{
 		ft_printf("Parameter error : ./client [PID] [Message] \n");
-	}
 	return (0);
 }
