@@ -6,19 +6,11 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:28 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/14 01:14:04 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/14 01:30:55 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
-
-int	g_signal_received = 0;
-
-void	received_handler(int signal)
-{
-	(void)signal;
-	g_signal_received = 1;
-}
 
 void	char_to_binary(char c, char *binary)
 {
@@ -50,10 +42,14 @@ void	send_message(int PID, char *message)
 				kill(PID, SIGUSR1);
 			else if (binary[j] == '1')
 				kill(PID, SIGUSR2);
-			while (!g_signal_received)
-				;
-			g_signal_received = 0;
+			usleep(300);
 		}
+	}
+	i = -1;
+	while (++i < 8)
+	{
+		kill(PID, SIGUSR1);
+		usleep(300);
 	}
 }
 
@@ -65,7 +61,6 @@ int	main(int ac, char **av)
 	if (ac == 3)
 	{
 		pid = ft_atoi(av[1]);
-		signal(SIGUSR1, received_handler);
 		if (!pid || only_number(av[1]))
 		{
 			ft_printf("PID formulation error\n");
@@ -80,7 +75,8 @@ int	main(int ac, char **av)
 		send_message(pid, message);
 	}
 	else
+	{
 		ft_printf("Parameter error : ./client [PID] [Message] \n");
-	send_message(pid, "\0");
+	}
 	return (0);
 }

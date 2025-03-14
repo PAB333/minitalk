@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:18 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/14 01:17:41 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/14 01:29:42 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,13 @@ static char	*print_and_free(char *message)
 	return (message);
 }
 
-void	signal_handler(int signum, siginfo_t *info, void *context)
+void	signal_handler(int signum)
 {
 	static int		count = 0;
 	static int		ascii;
 	static char		c[9];
 	static char		*message = NULL;
 
-	(void)context;
 	if (message == NULL)
 		message = ft_strdup("");
 	if (signum == SIGUSR1)
@@ -86,7 +85,6 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 		count = 0;
 		ascii = 0;
 	}
-	kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -95,9 +93,9 @@ int	main(void)
 
 	ft_printf("Welcome, you are on the server\n");
 	ft_printf("The PID to connect from the client is : %d\n", getpid());
-	signal.sa_sigaction = signal_handler;
+	signal.sa_handler = signal_handler;
 	sigemptyset(&signal.sa_mask);
-	signal.sa_flags = SA_SIGINFO;
+	signal.sa_flags = 0;
 	sigaction(SIGUSR1, &signal, NULL);
 	sigaction(SIGUSR2, &signal, NULL);
 	while (1)
