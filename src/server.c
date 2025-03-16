@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:18 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/14 16:04:50 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/16 14:48:13 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	binary_to_ascii(char *c)
 static char	*print_and_free(char *message)
 {
 	ft_printf("%s\n", message);
+	free(message);
 	message = NULL;
 	return (message);
 }

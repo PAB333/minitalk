@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:28 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/14 16:03:09 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/16 14:59:19 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ int	g_received_check;
 void	received_checker(int signal)
 {
 	g_received_check = 1;
+}
+
+void	send_end_character(int PID)
+{
+	int	i;
+
+	i = 0;
+	while (i++ < 8)
+	{
+		g_received_check = 0;
+		kill(PID, SIGUSR1);
+		while (!g_received_check)
+			;
+	}
 }
 
 void	char_to_binary(char c, char *binary)
@@ -45,6 +59,7 @@ void	send_message(int PID, char *message)
 		j = -1;
 		while (binary[++j])
 		{
+			g_received_check = 0;
 			if (binary[j] == '0')
 				kill(PID, SIGUSR1);
 			else if (binary[j] == '1')
@@ -53,6 +68,7 @@ void	send_message(int PID, char *message)
 				;
 		}
 	}
+	send_end_character(PID);
 }
 
 int	main(int ac, char **av)
@@ -76,7 +92,6 @@ int	main(int ac, char **av)
 			return (0);
 		}
 		send_message(pid, message);
-		send_message(pid, "\0");
 	}
 	else
 		ft_printf("Parameter error : ./client [PID] [Message] \n");
