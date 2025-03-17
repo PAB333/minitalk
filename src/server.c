@@ -6,7 +6,7 @@
 /*   By: pibreiss <pibreiss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 19:03:18 by pibreiss          #+#    #+#             */
-/*   Updated: 2025/03/16 14:48:13 by pibreiss         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:55:52 by pibreiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	main(void)
 {
 	struct sigaction	signal;
 
-	ft_printf("Welcome, you are on the server\n");
 	ft_printf("The PID to connect from the client is : %d\n", getpid());
 	signal.sa_sigaction = signal_handler;
 	signal.sa_flags = SA_SIGINFO;
